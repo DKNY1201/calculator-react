@@ -7,22 +7,47 @@ import Keypad from '../../components/Keypad/Keypad';
 class Calculator extends Component {
 	constructor() {
 		super();
-		// this.updateDisplay.bind(this);
 	}
 	state = {
 		displayValue: '0',
 		numbers: ['9', '8', '7', '6', '5', '4', '3', '2', '1', '.', '0','ce'],
-		operators: ['/', 'x', '-', '+'],
+		operators: ['/', '*', '-', '+'],
 		selectedOperator: '',
 		storedValue: ''
 	};
 
 	callOperator = () => {
-		console.log('call operation');
+		let {displayValue, selectedOperator, storedValue} = this.state;
+
+		switch(selectedOperator) {
+			case '+':
+				displayValue = +storedValue + +displayValue + '';
+				break;
+			case '-':
+				displayValue = +storedValue - +displayValue + '';
+				break;
+			case '*':
+				displayValue = +storedValue * +displayValue + '';
+				break;
+			case '/':
+				displayValue = +storedValue / +displayValue;
+				displayValue = (Math.round(displayValue * 100) / 100) + '';
+				if (displayValue === 'NaN' || displayValue === 'Infinity') {
+					displayValue = '0';
+				}
+				break;
+			default:
+				displayValue = '0';
+		}
+
+		selectedOperator = '';
+		storedValue = '';
+
+		this.setState({displayValue, selectedOperator, storedValue});
 	}
 
 	setOperator = operator => {
-		let {selectedOperator, storedValue, displayValue} = this.state;
+		let {displayValue, selectedOperator, storedValue} = this.state;
 
 		if (selectedOperator === '') {
 			storedValue = displayValue;
