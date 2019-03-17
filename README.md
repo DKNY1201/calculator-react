@@ -1,3 +1,5 @@
+A simple Calculator developed by using React, Unit Test with Enzyme, Jest and following TDD development principle.
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
