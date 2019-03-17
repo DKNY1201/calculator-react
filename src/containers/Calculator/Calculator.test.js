@@ -127,3 +127,40 @@ describe('updateDisplay', () => {
 		expect(wrapperInstance.state.displayValue).toEqual('0');
 	});
 });
+
+describe('setOperator', () => {
+	let wrapper, wrapperInstance;
+
+	beforeEach(() => {
+		wrapper = shallow(<Calculator/>);
+		wrapperInstance = wrapper.instance();
+	});
+
+	it('should update selectedOperator', () => {
+		wrapperInstance.setOperator('+');
+		expect(wrapperInstance.state.selectedOperator).toEqual('+');
+		wrapperInstance.setOperator('/');
+		expect(wrapperInstance.state.selectedOperator).toEqual('/');
+	});
+
+	it('should update storedValue to value of displayValue', () => {
+		wrapperInstance.updateDisplay('8');
+		wrapperInstance.setOperator('*');
+		expect(wrapperInstance.state.storedValue).toEqual('8');
+	});
+
+	it('shouldn\'t update storedValue when selectedOperator is not empty', () => {
+		wrapperInstance.updateDisplay('1');
+		wrapperInstance.setOperator('+');
+		expect(wrapperInstance.state.storedValue).toEqual('1');
+		wrapperInstance.setOperator('*');
+		expect(wrapperInstance.state.storedValue).toEqual('1');
+		expect(wrapperInstance.state.selectedOperator).toEqual('*');
+	});
+
+	it('should update displayValue to "0"', () => {
+		wrapperInstance.updateDisplay('12');
+		wrapperInstance.setOperator('+');
+		expect(wrapperInstance.state.displayValue).toEqual('0');
+	});
+});

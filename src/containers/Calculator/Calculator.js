@@ -7,7 +7,7 @@ import Keypad from '../../components/Keypad/Keypad';
 class Calculator extends Component {
 	constructor() {
 		super();
-		this.updateDisplay.bind(this);
+		// this.updateDisplay.bind(this);
 	}
 	state = {
 		displayValue: '0',
@@ -21,31 +21,33 @@ class Calculator extends Component {
 		console.log('call operation');
 	}
 
-	setOperator = () => {
-		console.log('set operation');
+	setOperator = operator => {
+		let {selectedOperator, storedValue, displayValue} = this.state;
+
+		if (selectedOperator === '') {
+			storedValue = displayValue;
+			displayValue = '0';
+		}
+		selectedOperator = operator;
+
+		this.setState({selectedOperator, storedValue, displayValue});
 	}
 
-	updateDisplay = (val) => {
+	updateDisplay = val => {
 		let {displayValue} = this.state;
 
+		if (val === '.' && displayValue.includes('.')) {
+			val = '';
+		}
+
 		if (val === 'ce') {
-			if (displayValue.length <= 1) {
+			displayValue = displayValue.slice(0, displayValue.length - 1);
+
+			if (displayValue === '') {
 				displayValue = '0';
-			} else {
-				displayValue = displayValue.slice(0, displayValue.length - 1);
-			}
-		} else if(val === '.') {
-			if (displayValue === '0') {
-				displayValue = '.';
-			} else {
-				displayValue += displayValue.includes('.') ? '' : val;
 			}
 		} else {
-			if (displayValue === '0') {
-				displayValue = val;
-			} else {
-				displayValue += val;
-			}
+			displayValue = displayValue === '0' ? val : displayValue + val;
 		}
 
 		this.setState({displayValue});
