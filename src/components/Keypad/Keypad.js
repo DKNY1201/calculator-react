@@ -1,24 +1,33 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import './Keypad.css';
 
-const keypad = ({callOperator, setOperator, updateDisplay, numbers, operators}) => {
-	const numberKeys = numbers.map(number => <p key={number}>{number}</p>);
-	const operatorKeys = operators.map(operator => <p key={operator}>{operator}</p>)
+import './Keypad.css';
+import Key from '../Key/Key';
+
+const Keypad = ({callOperator, setOperator, updateDisplay, numbers, operators}) => {
+	const numberKeys = numbers.map(number => {
+		return <Key key={number} keyAction={updateDisplay} keyType="number-key" keyValue={number} />
+	});
+	const operatorKeys = operators.map(operator => {
+		return <Key key={operator} keyAction={setOperator} keyType="operator-key" keyValue={operator} />
+	})
 
 	return (
 		<div className="keypad-container">
-			<div className="number-container">
+			<div className="numbers-container">
 				{numberKeys}
 			</div>
-			<div className="operator-container">
+			<div className="operators-container">
 				{operatorKeys}
+			</div>
+			<div className="submit-container">
+				<Key keyAction={callOperator} keyType="submit-key" keyValue="="/>
 			</div>
 		</div>
 	);
 }
 
-keypad.propTypes = {
+Keypad.propTypes = {
 	callOperator: PropTypes.func.isRequired,
 	setOperator: PropTypes.func.isRequired,
 	updateDisplay: PropTypes.func.isRequired,
@@ -26,4 +35,4 @@ keypad.propTypes = {
 	operators: PropTypes.array.isRequired
 }
 
-export default keypad;
+export default Keypad;

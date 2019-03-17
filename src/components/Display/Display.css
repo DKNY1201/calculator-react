@@ -14,5 +14,5 @@
     font-weight: var(--display-text-weight);
     margin-left: auto;
     overflow: hidden;
-    padding: 15px 0 0;
+    /*padding: 15px 0 0;*/
 }

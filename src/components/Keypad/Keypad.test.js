@@ -1,5 +1,5 @@
 import React from 'react';
-import {shallow} from 'enzyme';
+import {shallow, mount} from 'enzyme';
 
 import Keypad from './Keypad';
 
@@ -18,23 +18,43 @@ describe('<Keypad />', () => {
 		wrapperInstance = wrapper.instance();
 	});
 
-	it('should render 3 divs', () => {
-		expect(wrapper.find('div').length).toEqual(3);
+	it('should render 4 divs', () => {
+		expect(wrapper.find('div').length).toEqual(4);
+	});
+
+	it('should render instances of Key for all numbers, operators and submit Key', () => {
+		const numbers = ['0', '1', '2', '3', '4', '5'];
+		const operators = ['+', '-', '*', '/'];
+		const submit = 1;
+		const totalKeys = numbers.length + operators.length + submit;
+
+		wrapper.setProps({numbers, operators});
+		expect(wrapper.find('Key').length).toEqual(totalKeys);
+	});
+});
+
+describe('mounted <Keypad />', () => {
+	let wrapper;
+
+	beforeEach(() => {
+		wrapper = mount(<Keypad
+			callOperator = {jest.fn()}
+			setOperator = {jest.fn()}
+			updateDisplay = {jest.fn()}
+			numbers = {[]}
+			operators = {[]}
+		/>);
 	});
 
 	it('should render value of numbers', () => {
-		expect(wrapper.setProps({
-			numbers: [0,1,2,3,4,5]
-		}).text()).toEqual('012345');
+		wrapper.setProps({numbers: ['0', '1', '2', '3', '4', '5']});
+
+		expect(wrapper.find('.numbers-container').text()).toEqual('012345');
 	});
 
 	it('should render value of operators', () => {
-		expect(wrapper.setProps({
-			operators: ['+', '-', '*', '/']
-		}).text()).toEqual('+-*/');
-	});
+		wrapper.setProps({operators: ['+', '-', '*', '/']});
 
-	it('should render an instance of Key component', () => {
-		expect(wrapper.find('Key').length).toEqual(1);
+		expect(wrapper.find('.operators-container').text()).toEqual('+-*/');
 	});
 });
