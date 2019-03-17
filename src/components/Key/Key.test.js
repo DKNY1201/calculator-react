@@ -1,13 +1,16 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import Key from './Key';
 
-import Calculator from './Calculator';
-
-describe('<Calculator />', () => {
+describe('<Key />', () => {
 	let wrapper;
 
 	beforeEach(() => {
-		wrapper = shallow(<Calculator />);
+		wrapper = shallow(<Key
+			keyAction = {jest.fn()}
+		  keyType = {''}
+		  keyValue = {''}
+		/>);
 	});
 
 	it('should render a div', () => {

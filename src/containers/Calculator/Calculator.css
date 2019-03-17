@@ -1,0 +1,5 @@
+.calculator-container {
+    background-color: var(--calculator-background-color);
+    width: var(--calculator-width);
+    height: var(--calculator-height);
+}
